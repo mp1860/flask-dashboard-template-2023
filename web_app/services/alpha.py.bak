@@ -33,7 +33,7 @@ class AlphavantageService:
             Fetches stock data for the given symbol.
             Returns the data, or an empty DataFrame if none is available.
         """
-        request_url = f"https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol={symbol}&market=USD&apikey={self.api_key}&datatype=csv"
+        request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={symbol}&apikey={self.api_key}&datatype=csv"
         df = read_csv(request_url) #> pandas.DataFrame
         if "timestamp" not in df.columns:
             # sometimes we might not get the data
@@ -68,11 +68,10 @@ if __name__ == "__main__":
     if stocks_df.empty:
         print("OOPS, something went wrong. Please check your inputs and try again...")
     else:
-        print("hello")
         print(stocks_df.head())
 
         print("-----------------")
         print("LATEST DATA:")
         latest = stocks_df.iloc[0] # get the first row in the dataset
         print(latest["timestamp"])
-        print(to_usd(latest["close (USD)"]))
+        print(to_usd(latest["close"]))
